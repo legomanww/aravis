@@ -38,3 +38,11 @@ jobs:
       with:
         name: MacOS_Meson_Testlog
         path: build/meson-logs/testlog.txt
+    - name: upload artifacts
+      uses: actions/upload-artifact@v3
+      if: success()
+      with:
+        name: macos_aravis_build
+        path: |
+          build/
+          install/

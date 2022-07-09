@@ -32,6 +32,7 @@ jobs:
         INPUT_CONANFILE: |
           [requires]
           libiconv/1.17
+          glib/2.74.0
           #gobject-introspection/1.69.0
           gstreamer/1.22.3
           #gst-plugins-base/1.22.3      Disable gstreamer for now, latest gst-plugins-base is 1.19.2
@@ -54,6 +55,7 @@ jobs:
           glib:shared=True
           gstreamer:shared=True
           gst-plugins-base:shared=True
+          libxml2:shared=False
       run: |
         $Env:INPUT_CONANFILE | Out-File -FilePath ${{ github.workspace }}\conanfile.txt -Encoding utf8
         conan install -s os="Windows" -s compiler="Visual Studio" -s compiler.version=${{ matrix.version }} -s arch=${{ matrix.arch }} -s build_type=${{ matrix.build_type_conan }} -b pcre -b missing -b cascade -if build .
@@ -83,3 +85,19 @@ jobs:
       with:
         name: msvc_${{ matrix.version }}_${{ matrix.arch }}_${{ matrix.build_type_meson }}_Meson_Testlog
         path: build/meson-logs/testlog.txt
+    - name: upload artifacts
+      uses: actions/upload-artifact@v3
+      if: success()
+      with:
+        name: msvc_aravis_build
+        path: |
+          build/
+          install/
+          conan/
+    - name: upload conan artifacts
+      uses: actions/upload-artifact@v3
+      if: success()
+      with:
+        name: conan_artifacts
+        path: |
+          C:\.conan\**\bin
