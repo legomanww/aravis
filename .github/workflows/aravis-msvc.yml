@@ -51,9 +51,9 @@ jobs:
           virtualrunenv
 
           [options]
-          glib:shared=True
-          gstreamer:shared=True
-          gst-plugins-base:shared=True
+          glib:shared=False
+          gstreamer:shared=False
+          gst-plugins-base:shared=False
           libxml2:shared=False
       run: |
         $Env:INPUT_CONANFILE | Out-File -FilePath ${{ github.workspace }}\conanfile.txt -Encoding utf8
