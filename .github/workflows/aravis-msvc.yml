@@ -32,7 +32,6 @@ jobs:
         INPUT_CONANFILE: |
           [requires]
           libiconv/1.17
-          glib/2.74.0
           #gobject-introspection/1.69.0
           gstreamer/1.22.3
           #gst-plugins-base/1.22.3      Disable gstreamer for now, latest gst-plugins-base is 1.19.2
