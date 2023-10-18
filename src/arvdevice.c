@@ -87,6 +87,40 @@ arv_device_create_stream (ArvDevice *device, ArvStreamCallback callback, void *u
 }
 
 /**
+ * arv_device_register_signal_callback:
+ * @device: a #ArvDevice
+ * @signal: signal name
+ * @callback: callback function
+ *
+ * Return: handle id for signal connection
+ *
+ * Since: 0.8.99
+ */
+
+gulong
+arv_device_register_signal_callback (ArvDevice *device, const char *signal, ArvDeviceSignalCallback callback)
+{
+    g_return_val_if_fail (ARV_IS_DEVICE (device), 0);
+
+    return g_signal_connect (device, signal, G_CALLBACK (callback), NULL);
+}
+
+/**
+ * arv_device_unregister_signal_callback:
+ * @device: a #ArvDevice
+ * @handle: handle id for signal connection
+ *
+ * Since: 0.8.99
+ */
+void
+arv_device_unregister_signal_callback (ArvDevice *device, gulong handle)
+{
+    g_return_if_fail (ARV_IS_DEVICE (device));
+
+    g_signal_handler_disconnect(device, handle);
+}
+
+/**
  * arv_device_create_stream_full: (rename-to arv_device_create_stream)
  * @device: a #ArvDevice
  * @callback: (scope notified): a frame processing callback

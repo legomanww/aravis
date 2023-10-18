@@ -77,6 +77,8 @@ typedef enum {
         ARV_DEVICE_ERROR_PROTOCOL_ERROR_BUSY
 } ArvDeviceError;
 
+typedef void (*ArvDeviceSignalCallback)	(ArvDevice *device);
+
 #define ARV_TYPE_DEVICE             (arv_device_get_type ())
 ARV_API G_DECLARE_DERIVABLE_TYPE (ArvDevice, arv_device, ARV, DEVICE, GObject)
 
@@ -96,6 +98,9 @@ struct _ArvDeviceClass {
 	/* signals */
 	void		(*control_lost)		(ArvDevice *device);
 };
+
+ARV_API gulong      arv_device_register_signal_callback    (ArvDevice *device, const char *signal, ArvDeviceSignalCallback callback);
+ARV_API void        arv_device_unregister_signal_callback  (ArvDevice *device, gulong handle);
 
 ARV_API ArvStream *	arv_device_create_stream		(ArvDevice *device, ArvStreamCallback callback, void *user_data, GError **error);
 ARV_API ArvStream *	arv_device_create_stream_full		(ArvDevice *device, ArvStreamCallback callback, void *user_data, GDestroyNotify destroy, GError **error);
