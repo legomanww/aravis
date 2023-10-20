@@ -38,6 +38,18 @@ jobs:
       with:
         name: MacOS_Meson_Testlog
         path: build/meson-logs/testlog.txt
+    - name: Collect Artifacts and Dependencies
+      if: success()
+      run: |
+        echo "::group::meson install"
+        meson install -C ./build --destdir $(pwd)/install
+        echo "::endgroup::"
+        echo "::group::brew install"
+        brew install dylibbundler
+        echo "::endgroup::"
+        mkdir dist
+        cp ./install/usr/local/lib/libaravis-0.8.dylib ./dist
+        dylibbundler -od -b -x ./dist/libaravis-0.8.dylib -d ./dist -p @loader_path/
     - name: upload artifacts
       uses: actions/upload-artifact@v3
       if: success()
@@ -46,3 +58,4 @@ jobs:
         path: |
           build/
           install/
+          dist/
