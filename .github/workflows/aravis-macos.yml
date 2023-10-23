@@ -48,8 +48,7 @@ jobs:
         brew install dylibbundler
         echo "::endgroup::"
         mkdir dist
-        cp ./install/usr/local/lib/libaravis-0.8.dylib ./install
-        dylibbundler -od -b -x ./install/libaravis-0.8.dylib -d ./dist -p @loader_path/
+        dylibbundler -od -b -x ./install/usr/local/lib/libaravis-0.8.dylib -d ./dist -p @loader_path/
     - name: upload artifacts
       uses: actions/upload-artifact@v3
       if: success()
