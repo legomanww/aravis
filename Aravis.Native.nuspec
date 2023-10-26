@@ -4,6 +4,8 @@
         <id>Aravis.Native</id>
         <version>0.0.1</version>
         <title>Aravis native library for supported platforms</title>
+        <authors>AravisProject</authors>
+        <owners>AravisProject</owners>
         <description>Aravis native library for supported platforms</description>
         <tags>Aravis native library</tags>
         <projectUrl>https://github.com/legomanww/aravis</projectUrl>
