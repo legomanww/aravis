@@ -42,6 +42,7 @@ jobs:
         echo "::group::bundle dependencies"
         mkdir dist
         dylibbundler -od -b -x ./install/usr/local/lib/libaravis-0.8.dylib -d ./dist -p @loader_path/
+        cp ./install/usr/local/lib/libaravis-0.8.dylib ./dist
         echo "::endgroup::"
     - name: upload artifacts
       uses: actions/upload-artifact@v3
