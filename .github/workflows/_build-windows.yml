@@ -78,7 +78,9 @@ jobs:
       run: |
         mkdir dist
         cp .\install\bin\aravis*.dll .\dist
-        gci -recurse -file -path "c:\.conan\*\bin\g*.dll" | copy-item -destination .\dist
+        gci -recurse -file -path "c:\.conan\" -filter "bin\g*.dll"
+        gci -recurse -file -path "c:\.conan\" -filter "bin\g*.dll" | copy-item -destination .\dist
+        gci .\dist
     - name: upload dist artifacts
       uses: actions/upload-artifact@v3
       if: success()
