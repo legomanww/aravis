@@ -51,13 +51,13 @@ jobs:
       - name: Get Build Artifacts
         uses: actions/download-artifact@v3
         with:
-          path: src/
+          path: dist/
 
       - name: Get Source Archive
         run: git archive --format=tgz -o aravis-source.tgz HEAD
 
       - name: Show Artifacts
-        run: tree src
+        run: tree dist
 
       - name: Pack
         run: nuget pack Aravis.Native.nuspec -Version ${{ env.ARAVIS_VERSION }}.${{ github.run_number }}

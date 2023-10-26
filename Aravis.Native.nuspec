@@ -18,8 +18,8 @@
         <!-- Linux x64 -->
         <!-- <file src="src/build-linux-x64/*.so" target="runtimes/linux-x64/native" /> -->
         <!-- MacOS -->
-        <file src="src/build-macos/*.dylib" target="runtimes/osx/native" />
+        <file src="dist/build-macos/*.dylib" target="runtimes/osx/native" />
         <!-- Windows -->
-        <file src="src/build-win-x64/*.dll" target="runtimes/win-x64/native" />
+        <file src="dist/build-win-x64/*.dll" target="runtimes/win-x64/native" />
     </files>
 </package>
