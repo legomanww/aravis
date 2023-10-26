@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Aravis.Native</id>
+        <version>0.0.1</version>
+        <title>Aravis native library for supported platforms</title>
+        <description>Aravis native library for supported platforms</description>
+        <tags>Aravis native library</tags>
+        <projectUrl>https://github.com/legomanww/aravis</projectUrl>
+        <repository type="git" url="https://github.com/legomanww/aravis" />
+    </metadata>
+    <files>
+        <!-- ALL -->
+        <file src="COPYING" target="LICENSE" />
+        <file src="aravis-source.tgz" target="Content"/>
+        <!-- Linux ARM64 -->
+        <!-- <file src="src/build-linux-arm64/*.so" target="runtimes/linux-arm64/native" /> -->
+        <!-- Linux x64 -->
+        <!-- <file src="src/build-linux-x64/*.so" target="runtimes/linux-x64/native" /> -->
+        <!-- MacOS -->
+        <file src="src/build-macos/*.dylib" target="runtimes/osx/native" />
+        <!-- Windows -->
+        <file src="src/build-win-x64/*.dll" target="runtimes/win-x64/native" />
+    </files>
+</package>

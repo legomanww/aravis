@@ -1,0 +1,66 @@
+name: Build and Push Package
+on:
+  push:
+    branches:
+      artifacts
+  workflow_dispatch:
+
+env:
+  ARAVIS_VERSION: 0.8.30
+
+jobs:
+  build-win-x64:
+    name: Build Windows x64
+    uses: ./.github/workflows/_build-windows.yml
+    secrets: inherit
+
+  build-macos:
+    name: Build MacOS
+    uses: ./.github/workflows/_build-macos.yml
+    secrets: inherit
+  
+  # build-linux-x64:
+  #   name: Build Linux x64
+  #   uses: ./github/workflows/_build-linux-x64.yml
+  #   secrets: inherit
+
+  # build-linux-arm64:
+  #   name: Build Linux ARM64
+  #   uses: ./github/workflows/_build-linux-arm64.yml
+  #   secrets: inherit
+  
+  pack:
+    runs-on: ubuntu-latest
+    needs: [build-win-x64, build-macos]
+    timeout-minutes: 5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+    
+      - name: Setup .NET 7
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '7.x'
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: src/
+
+      - name: Get Source Archive
+        run: git archive --format=tgz -o aravis-source.tgz HEAD
+
+      - name: Show Artifacts
+        run: tree src
+
+      - name: Pack
+        run: nuget pack Aravis.Native.nuspec -Version ${{ env.ARAVIS_VERSION }}.${{ github.run_number }}
+            
+      - name: Push
+        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.GITHUB_TOKEN }}
