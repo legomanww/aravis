@@ -48,7 +48,7 @@ jobs:
 
           [options]
           glib:shared=True
-          gstreamer:shared=True
+          gstreamer:shared=False
           gst-plugins-base:shared=True
           libxml2:shared=False
       run: |
