@@ -6,14 +6,6 @@ on:
 jobs:
   msvc:
     runs-on: windows-2019
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-        - version: 16
-          arch: x86_64
-          build_type_conan: Release
-          build_type_meson: release
     steps:
     - name: pip
       run: |
@@ -53,14 +45,14 @@ jobs:
           libxml2:shared=False
       run: |
         $Env:INPUT_CONANFILE | Out-File -FilePath ${{ github.workspace }}\conanfile.txt -Encoding utf8
-        conan install -s os="Windows" -s compiler="Visual Studio" -s compiler.version=${{ matrix.version }} -s arch=${{ matrix.arch }} -s build_type=${{ matrix.build_type_conan }} -b pcre -b missing -b cascade -if build .
+        conan install -s os="Windows" -s compiler="Visual Studio" -s compiler.version=16 -s arch=x86_64 -s build_type=Release -b pcre -b missing -b cascade -if build .
     - name: meson
       run: |
         .\build\activate.ps1
         .\build\activate_build.ps1
         .\build\activate_run.ps1
         echo "::group::configure"
-        meson --prefix ${{ github.workspace }}\install --buildtype ${{ matrix.build_type_meson }} --pkg-config-path ${{ github.workspace }}\build -Ddocumentation=disabled -Dgst-plugin=disabled -Dintrospection=disabled -Dusb=disabled -Dviewer=disabled -Dgv-n-buffers=10 . .\build
+        meson --prefix ${{ github.workspace }}\install --buildtype release --pkg-config-path ${{ github.workspace }}\build -Ddocumentation=disabled -Dgst-plugin=disabled -Dintrospection=disabled -Dusb=disabled -Dviewer=disabled -Dgv-n-buffers=10 . .\build
         echo "::endgroup::"
         echo "::group::compile"
         meson compile -C .\build -v
@@ -91,7 +83,7 @@ jobs:
       uses: actions/upload-artifact@v3
       if: failure()
       with:
-        name: msvc_${{ matrix.version }}_${{ matrix.arch }}_${{ matrix.build_type_meson }}_Meson_Testlog
+        name: msvc_16_x86_64_release_Meson_Testlog
         path: build/meson-logs/testlog.txt
     - name: upload artifacts
       uses: actions/upload-artifact@v3
