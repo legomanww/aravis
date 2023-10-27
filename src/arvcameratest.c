@@ -349,7 +349,7 @@ emit_software_trigger (void *abstract_data)
 }
 
 static void
-control_lost_cb (ArvGvDevice *gv_device)
+control_lost_cb (ArvDevice *gv_device)
 {
 	printf ("Control lost\n");
 
@@ -694,8 +694,7 @@ main (int argc, char **argv)
 			    g_signal_connect (arv_camera_get_device (camera), "control-lost",
 					      G_CALLBACK (control_lost_cb), NULL);
 
-				auto sig_handle = arv_device_register_signal_callback (arv_camera_get_device (camera), "control-lost",
-                                                                   control_lost_cb);
+				auto sig_handle = arv_device_register_signal_callback (arv_camera_get_device (camera), "control-lost", control_lost_cb);
 
                             data.start_time = g_get_monotonic_time();
 
