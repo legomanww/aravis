@@ -10,11 +10,14 @@
         <tags>Aravis native library</tags>
         <projectUrl>https://github.com/legomanww/aravis</projectUrl>
         <repository type="git" url="https://github.com/legomanww/aravis" />
+        <contentFiles>
+            <files include="aravis-source.tgz" buildAction="None" copyToOutput="true"/>
+        </contentFiles>
+        <license type="expression">LGPL-2.1</license>
     </metadata>
     <files>
         <!-- ALL -->
         <file src="COPYING" target="LICENSE" />
-        <file src="aravis-source.tgz" target="Content"/>
         <!-- Linux ARM64 -->
         <!-- <file src="src/build-linux-arm64/*.so" target="runtimes/linux-arm64/native" /> -->
         <!-- Linux x64 -->
