@@ -11,13 +11,14 @@
         <projectUrl>https://github.com/legomanww/aravis</projectUrl>
         <repository type="git" url="https://github.com/legomanww/aravis" />
         <contentFiles>
-            <files include="aravis-source.tgz" buildAction="None" copyToOutput="true"/>
+            <files include="any/any/aravis-source.tgz" buildAction="None" copyToOutput="true" flatten="true"/>
         </contentFiles>
         <license type="expression">LGPL-2.1-or-later</license>
     </metadata>
     <files>
         <!-- ALL -->
         <file src="COPYING" target="LICENSE" />
+        <file src="aravis-source.tgz" target="contentFiles/any/any/aravis-source.tgz"/>
         <!-- Linux ARM64 -->
         <!-- <file src="src/build-linux-arm64/*.so" target="runtimes/linux-arm64/native" /> -->
         <!-- Linux x64 -->
