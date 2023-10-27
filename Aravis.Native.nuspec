@@ -13,7 +13,7 @@
         <contentFiles>
             <files include="aravis-source.tgz" buildAction="None" copyToOutput="true"/>
         </contentFiles>
-        <license type="expression">LGPL-2.1</license>
+        <license type="expression">LGPL-2.1-or-later</license>
     </metadata>
     <files>
         <!-- ALL -->
