@@ -32,7 +32,10 @@
 
 G_BEGIN_DECLS
 
+typedef void (*ArvDebugCallback)	(char *message);
+
 ARV_API gboolean	arv_debug_enable		(const char *category_selection);
+ARV_API void	arv_debug_set_output_callback		(ArvDebugCallback callback);
 
 G_END_DECLS
 

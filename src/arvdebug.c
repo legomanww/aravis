@@ -66,6 +66,8 @@ ArvDebugLevelInfos arv_debug_level_infos[] = {
 	{ .color = "\033[0m",		.symbol = "🆃 "}
 };
 
+ArvDebugCallback debug_callback = NULL;
+
 static gboolean
 arv_debug_initialize (const char *debug_var)
 {
@@ -107,6 +109,9 @@ arv_debug_initialize (const char *debug_var)
 static gboolean
 stderr_has_color_support (void)
 {
+	if (debug_callback != NULL)
+		return FALSE;
+
 #if GLIB_CHECK_VERSION(2,50,0)
 	static int has_color_support = -1;
 
@@ -142,6 +147,16 @@ static void arv_debug_with_level (ArvDebugCategory category,
 				  va_list args) G_GNUC_PRINTF(3,0);
 
 static void
+debug_output (char* message)
+{
+	if (debug_callback != NULL) {
+		debug_callback(message);
+	} else {
+		g_fprintf (stderr, "%s", message);
+	}
+}
+
+static void
 arv_debug_with_level (ArvDebugCategory category, ArvDebugLevel level, const char *format, va_list args)
 {
         char *text = NULL;
@@ -149,6 +164,7 @@ arv_debug_with_level (ArvDebugCategory category, ArvDebugLevel level, const char
 	char *time_str = NULL;
         GDateTime *date = NULL;
         char **lines;
+		char *out_line;
         gint i;
 
 	if (!arv_debug_check (category, level))
@@ -172,14 +188,17 @@ arv_debug_with_level (ArvDebugCategory category, ArvDebugLevel level, const char
         if (header != NULL) {
                 int header_length = 19 + strlen (arv_debug_category_infos[category].name);
 
-                g_fprintf (stderr, "%s", header);
-
                 text = g_strdup_vprintf (format, args);
                 lines = g_strsplit (text, "\n", -1);
 
                 for (i = 0; lines[i] != NULL; i++) {
-                        if (strlen (lines[i]) >0)
-                                g_fprintf (stderr, "%*s%s\n", i > 0 ? header_length : 0, "", lines[i]);
+					if (strlen (lines[i]) >0) {
+						if (i == 0)
+							out_line = g_strdup_printf("%s%s\n", header, lines[i]);
+                        else
+							out_line = g_strdup_printf("%*s%s\n", header_length, "", lines[i]);
+						debug_output(out_line);
+					}
                 }
 
                 g_strfreev (lines);
@@ -189,6 +208,7 @@ arv_debug_with_level (ArvDebugCategory category, ArvDebugLevel level, const char
         }
 
         g_free (text);
+		g_free (out_line);
         g_free (header);
         g_free (time_str);
         g_date_time_unref (date);
@@ -256,6 +276,12 @@ gboolean
 arv_debug_enable (const char *category_selection)
 {
 	return arv_debug_initialize (category_selection);
+}
+
+void
+arv_debug_set_output_callback (ArvDebugCallback callback)
+{
+	debug_callback = callback;
 }
 
 static char *
