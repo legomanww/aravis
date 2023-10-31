@@ -52,6 +52,7 @@ ARV_API ArvGcNameSpace		arv_gc_feature_node_get_name_space		(ArvGcFeatureNode *g
 ARV_API const char *		arv_gc_feature_node_get_tooltip			(ArvGcFeatureNode *gc_feature_node);
 ARV_API const char *		arv_gc_feature_node_get_description		(ArvGcFeatureNode *gc_feature_node);
 ARV_API const char *		arv_gc_feature_node_get_display_name		(ArvGcFeatureNode *gc_feature_node);
+ARV_API ArvGcRepresentation	arv_gc_feature_node_get_representation		(ArvGcFeatureNode *gc_feature_node);
 ARV_API ArvGcVisibility		arv_gc_feature_node_get_visibility		(ArvGcFeatureNode *gc_feature_node);
 
 ARV_API gboolean		arv_gc_feature_node_is_available		(ArvGcFeatureNode *gc_feature_node, GError **error);
