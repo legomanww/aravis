@@ -51,7 +51,6 @@ typedef struct {
 	ArvGcPropertyNode *description;
 	ArvGcPropertyNode *visibility;
 	ArvGcPropertyNode *display_name;
-	ArvGcPropertyNode *representation;
 	ArvGcPropertyNode *is_implemented;
 	ArvGcPropertyNode *is_available;
 	ArvGcPropertyNode *is_locked;
@@ -96,9 +95,6 @@ arv_gc_feature_node_post_new_child (ArvDomNode *self, ArvDomNode *child)
 				break;
 			case ARV_GC_PROPERTY_NODE_TYPE_DISPLAY_NAME:
 				priv->display_name = property_node;
-				break;
-			case ARV_GC_PROPERTY_NODE_TYPE_REPRESENTATION:
-				priv->representation = property_node;
 				break;
 			case ARV_GC_PROPERTY_NODE_TYPE_P_IS_AVAILABLE:
 				priv->is_available = property_node;
@@ -150,9 +146,6 @@ arv_gc_feature_node_pre_remove_child (ArvDomNode *self, ArvDomNode *child)
 				break;
 			case ARV_GC_PROPERTY_NODE_TYPE_DISPLAY_NAME:
 				priv->description = NULL;
-				break;
-			case ARV_GC_PROPERTY_NODE_TYPE_REPRESENTATION:
-				priv->representation = NULL;
 				break;
 			case ARV_GC_PROPERTY_NODE_TYPE_P_IS_AVAILABLE:
 				priv->is_available = NULL;
@@ -320,19 +313,6 @@ arv_gc_feature_node_get_display_name (ArvGcFeatureNode *node)
 	       return NULL;
 
 	return arv_gc_property_node_get_string (priv->display_name, NULL);
-}
-
-ArvGcRepresentation
-arv_gc_feature_node_get_representation (ArvGcFeatureNode *node)
-{
-	ArvGcFeatureNodePrivate *priv = arv_gc_feature_node_get_instance_private (node);
-
-	g_return_val_if_fail (ARV_IS_GC_FEATURE_NODE (node), ARV_GC_REPRESENTATION_UNDEFINED);
-
-	if (priv->representation == NULL)
-	       return ARV_GC_REPRESENTATION_UNDEFINED;
-
-	return arv_gc_property_node_get_representation (priv->representation, ARV_GC_REPRESENTATION_UNDEFINED);
 }
 
 gboolean
